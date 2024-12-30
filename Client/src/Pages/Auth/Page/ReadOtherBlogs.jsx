@@ -9,7 +9,7 @@ const ReadOtherBlogs = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("/api/blog/viewavailableblog");
+      const res = await axios.get("https://se-project-ep59.onrender.com/api/blog/viewavailableblog");
       if (res.data) {
         const { Blogs, Authors } = res.data;
         // Map blogs to their respective authors

@@ -14,7 +14,9 @@ const BlogDetails = () => {
   useEffect(() => {
     const fetchBlogDetails = async () => {
       try {
-        const res = await axios.get(`/api/blog/inv/${id}`);
+        const res = await axios.get(
+          `https://se-project-ep59.onrender.com/api/blog/inv/${id}`
+        );
         console.log("Fetched blog details:", res.data);
         if (res.data) {
           setBlog(res.data);

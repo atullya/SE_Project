@@ -95,7 +95,7 @@ const UserDetail = () => {
                   onClick={async () => {
                     try {
                       await axios.post(
-                        `/api/v1/chat/${selectedUser._id}`,
+                        `https://se-project-ep59.onrender.com/api/v1/chat/${selectedUser._id}`,
                         { content: message },
                         { withCredentials: true }
                       );

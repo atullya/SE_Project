@@ -14,7 +14,9 @@ const FullBlogPage = () => {
   const allBlog = async () => {
     if (!indvdata?._id) return;
     try {
-      let res = await axios.get(`/api/guest/allblog/${indvdata._id}`);
+      let res = await axios.get(
+        `https://se-project-ep59.onrender.com/api/guest/allblog/${indvdata._id}`
+      );
       setBlog(res.data.blog.blog);
       console.log(res.data.blog);
       setAuthor(res.data.blog.author);

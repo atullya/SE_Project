@@ -45,7 +45,7 @@ const Signup = () => {
 
   const registerNewUser = async () => {
     try {
-      const res = await axios.post("/api/auth/register", formData);
+      const res = await axios.post("https://se-project-ep59.onrender.com/api/auth/register", formData);
       console.log("User registered successfully:", res.data);
       if (res.status === 201) {
         toast.success(res.data.message || "Signup successful!");

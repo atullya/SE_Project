@@ -17,7 +17,7 @@ const UserProfileComponent = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch("/api/blog/welcome", {
+      const res = await fetch("https://se-project-ep59.onrender.com/api/blog/welcome", {
         method: "GET",
         credentials: "include",
       });

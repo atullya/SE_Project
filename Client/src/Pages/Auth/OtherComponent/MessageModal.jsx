@@ -15,7 +15,7 @@ const MessageModal = ({ isOpen, onClose, userdata }) => {
       try {
         console.log(userdata._id);
         const response = await axios.get(
-          "/api/v1/chat/676ac02357c5fee58bf274c8",
+          "https://se-project-ep59.onrender.com/api/v1/chat/676ac02357c5fee58bf274c8",
           { withCredentials: true }
         );
 

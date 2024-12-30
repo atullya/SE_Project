@@ -50,7 +50,7 @@ const UploadNewPost = () => {
     }
 
     try {
-      const response = await axios.post("/api/blog/upload", formData, {
+      const response = await axios.post("https://se-project-ep59.onrender.com/api/blog/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

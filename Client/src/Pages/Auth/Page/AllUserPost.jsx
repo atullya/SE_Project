@@ -14,7 +14,7 @@ function AllUserPost() {
 
   const fetchAllPost = async () => {
     try {
-      let res = await axios.get("/api/blog/uploadedblog", {
+      let res = await axios.get("https://se-project-ep59.onrender.com/api/blog/uploadedblog", {
         withCredentials: true,
       });
       if (res.data) {
@@ -28,7 +28,7 @@ function AllUserPost() {
 
   const deleteBlog = async () => {
     try {
-      const res = await axios.delete(`/api/blog/remove/${deleteId}`, {
+      const res = await axios.delete(`https://se-project-ep59.onrender.com/api/blog/remove/${deleteId}`, {
         withCredentials: true,
       });
       if (res.data) {

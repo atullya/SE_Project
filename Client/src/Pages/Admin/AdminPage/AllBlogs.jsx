@@ -9,7 +9,7 @@ const AllBlogs = () => {
   // Fetch all posts
   const fetchAllPosts = async () => {
     try {
-      const res = await axios.get("/api/admin/getalluser", {
+      const res = await axios.get("https://se-project-ep59.onrender.com/api/admin/getalluser", {
         withCredentials: true,
       });
       console.log("API Response:", res.data); // Debugging API response

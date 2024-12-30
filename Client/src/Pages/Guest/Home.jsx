@@ -13,10 +13,13 @@ const Home = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/blog/welcome", {
-          method: "GET",
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://se-project-ep59.onrender.com/api/blog/welcome",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           setUserdata(data.user);
