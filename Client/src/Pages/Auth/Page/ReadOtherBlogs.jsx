@@ -55,7 +55,7 @@ const ReadOtherBlogs = () => {
                   {/* Image Section */}
                   <div className="relative">
                     <img
-                      src={`http://localhost:4000${blog.images[0]}`} // Add the base URL for the backend server
+                      src={`https://se-project-ep59.onrender.com/${blog.images[0]}`} // Add the base URL for the backend server
                       // Always include an alt text for accessibility
                       alt={blog.title}
                       className="w-full h-48 object-cover"

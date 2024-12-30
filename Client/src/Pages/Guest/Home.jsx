@@ -33,7 +33,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/guest/allblogs"
+          "https://se-project-ep59.onrender.com/api/guest/allblogs"
         );
         const data = await response.json();
         console.log("Fetched data:", data);
@@ -124,7 +124,7 @@ const Home = () => {
                   {/* Display the image */}
                   {blog.images && blog.images[0] ? (
                     <img
-                      src={`http://localhost:4000${blog.images[0]}`} // Add the base URL for the backend server
+                      src={`https://se-project-ep59.onrender.com${blog.images[0]}`} // Add the base URL for the backend server
                       alt={blog.title}
                       className="aspect-video w-full"
                     />
@@ -145,7 +145,7 @@ const Home = () => {
                   <header className="mb-4 flex gap-4">
                     <img
                       className=" rounded-full h-10 w-10 object-cover"
-                      src={`http://localhost:4000/uploads/${userdata.profilePic
+                      src={`https://se-project-ep59.onrender.com/${userdata.profilePic
                         .split("\\")
                         .pop()}`}
                       alt={userdata.username}

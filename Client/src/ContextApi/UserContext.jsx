@@ -11,7 +11,7 @@ export const UserContextProvider = ({ children }) => {
 
   const fetchUserData = async () => {
     try {
-      let res = await fetch("http://localhost:4000/api/blog/welcome", {
+      let res = await fetch("https://se-project-ep59.onrender.com/api/blog/welcome", {
         method: "GET",
         credentials: "include",
       });

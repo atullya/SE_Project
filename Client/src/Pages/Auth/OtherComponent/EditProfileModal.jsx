@@ -39,7 +39,7 @@ const EditProfileModal = ({
       formData.append("image", image);
 
       const res = await axios.patch(
-        "http://localhost:4000/api/blog/edit",
+        "https://se-project-ep59.onrender.com/api/blog/edit",
         formData,
         {
           withCredentials: true,

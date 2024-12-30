@@ -10,7 +10,7 @@ const AuthHome = () => {
   // Fetch user details from API
   const welcomeUser = async () => {
     try {
-      let res = await fetch("http://localhost:4000/api/blog/welcome", {
+      let res = await fetch("https://se-project-ep59.onrender.com/api/blog/welcome", {
         method: "GET",
         credentials: "include", // Correct way to include cookies in the request
       });

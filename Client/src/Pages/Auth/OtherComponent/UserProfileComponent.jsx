@@ -72,7 +72,7 @@ const UserProfileComponent = () => {
         <div className="w-32 h-32 mx-auto relative -mt-16 border-4 border-white rounded-full overflow-hidden">
           <img
             className="object-cover w-full h-full"
-            src={`http://localhost:4000/uploads/${userdata.profilePic
+            src={`hhttps://se-project-ep59.onrender.com/uploads/${userdata.profilePic
               .split("\\")
               .pop()}`}
             alt={userdata.username}
