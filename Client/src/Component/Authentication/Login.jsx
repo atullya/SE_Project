@@ -15,10 +15,13 @@ function Login() {
 
     try {
       // Sending data to your API with axios
-      const response = await axios.post("api/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://se-project-ep59.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
       console.log(response.data);
       // Handle response based on your API's success or failure
