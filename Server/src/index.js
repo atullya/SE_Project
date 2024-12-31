@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // Allow all origins or use your allowed domains
+    origin: "https://se-project-1-kn6i.onrender.com", // Allow all origins or use your allowed domains
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Ensure OPTIONS is allowed
     allowedHeaders: ["Content-Type", "Authorization"], // List your headers
     credentials: true, // If using cookies or sessions
