@@ -17,10 +17,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://se-project-1-kn6i.onrender.com", // Allow all origins or use your allowed domains
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Ensure OPTIONS is allowed
-    allowedHeaders: ["Content-Type", "Authorization"], // List your headers
-    credentials: true, // If using cookies or sessions
+    origin: "https://se-project-1-kn6i.onrender.com", // The domain your frontend is hosted on
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Ensure all required methods are allowed
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+    credentials: true, // Allow cookies or session credentials
   })
 );
 

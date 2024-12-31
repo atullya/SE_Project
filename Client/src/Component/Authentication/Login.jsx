@@ -6,7 +6,7 @@ import { BASE_URL } from "../../App";
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("12345678");
+  const [password, setPassword] = useState(""); // Allow user to input password
   const [error, setError] = useState("");
 
   // Handle form submission
@@ -18,24 +18,20 @@ function Login() {
       // Sending data to your API with axios
       const response = await axios.post(
         `${BASE_URL}/api/auth/login`,
-        {
-          email,
-          password,
-        },
+        { email, password },
         { withCredentials: true }
       );
 
-      console.log(response.data);
-      // Handle response based on your API's success or failure
+      console.log(response); // Log the full response for debugging
+
       if (response.data.success) {
-        if (email === "admin@gmail.com" && password === "12345678") {
+        if (email === "admin@gmail.com") {
           alert("Admin Login successful!");
           navigate("/admin");
         } else {
           alert("User Login successful!");
           navigate("/authhome");
         }
-        // Redirect or update app state as necessary
       } else {
         setError("Invalid email or password");
       }
