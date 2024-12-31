@@ -4,7 +4,8 @@ import Navbar from "./Component/Navbar";
 import HeroSection from "./Component/HeroSection";
 import Home from "./Pages/Guest/Home";
 
-export const BASE_URL = "http://localhost:4000";
+// export const BASE_URL = "http://localhost:4000";
+export const BASE_URL = "https://backend-wyi8.onrender.com/";
 const App = () => {
   // Create a ref for the home section
   const homeRef = useRef(null);
