@@ -24,6 +24,7 @@ const AuthHome = () => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // Handle Unauthorized error (JWT not valid or missing)
+        // navigate("/authhome");
         navigate("/authhome");
       } else {
         console.error("Error fetching user data:", error);
