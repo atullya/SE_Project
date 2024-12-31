@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponent/AdminSideBar";
 import axios from "axios";
+import { BASE_URL } from "../../../App";
 
 const UserDetail = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +12,7 @@ const UserDetail = () => {
 
   const getAllUserDetail = async () => {
     try {
-      const res = await axios.get("api/admin/getalluser", {
+      const res = await axios.get(`${BASE_URL}/api/admin/getalluser`, {
         withCredentials: true,
       });
       setUsers(res.data.Users);
@@ -95,7 +96,7 @@ const UserDetail = () => {
                   onClick={async () => {
                     try {
                       await axios.post(
-                        `https://se-project-ep59.onrender.com/api/v1/chat/${selectedUser._id}`,
+                        `${BASE_URL}/api/v1/chat/${selectedUser._id}`,
                         { content: message },
                         { withCredentials: true }
                       );

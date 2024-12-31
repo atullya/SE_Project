@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EditPasswordModal from "./EditPasswordModal";
 import { MdOutlineMessage } from "react-icons/md";
 import MessageModal from "./MessageModal";
+import { BASE_URL } from "../../../App";
 
 const UserProfileComponent = () => {
   const [userdata, setUserdata] = useState(null);
@@ -17,7 +18,7 @@ const UserProfileComponent = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch("https://se-project-ep59.onrender.com/api/blog/welcome", {
+      const res = await fetch(`${BASE_URL}/api/blog/welcome`, {
         method: "GET",
         credentials: "include",
       });
@@ -72,10 +73,12 @@ const UserProfileComponent = () => {
         <div className="w-32 h-32 mx-auto relative -mt-16 border-4 border-white rounded-full overflow-hidden">
           <img
             className="object-cover w-full h-full"
-            src={`hhttps://se-project-ep59.onrender.com/uploads/${userdata.profilePic
-              .split("\\")
-              .pop()}`}
-            alt={userdata.username}
+            src={
+              userdata?.profilePic
+                ? userdata.profilePic
+                : "https://avatar.iran.liara.run/public/23"
+            }
+            alt={userdata.username || "No Username"}
           />
         </div>
         <div className="text-center mt-4">

@@ -14,17 +14,24 @@ import cors from "cors";
 import chatRoutes from "./routes/chat-route.js";
 
 const app = express();
-const cors = require("cors");
 
 app.use(
   cors({
-    origin: "*",  // Allow all origins or use your allowed domains
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],  // Ensure OPTIONS is allowed
-    allowedHeaders: ["Content-Type", "Authorization"],  // List your headers
-    credentials: true,  // If using cookies or sessions
+    origin: "*", // Allow all origins or use your allowed domains
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Ensure OPTIONS is allowed
+    allowedHeaders: ["Content-Type", "Authorization"], // List your headers
+    credentials: true, // If using cookies or sessions
   })
 );
 
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // Your frontend's URL
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     credentials: true, // Allow credentials (cookies) to be sent
+//   })
+// );
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

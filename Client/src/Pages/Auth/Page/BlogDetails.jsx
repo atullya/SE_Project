@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaThumbsUp, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import axios from "axios";
+import { BASE_URL } from "../../../App";
 
 const BlogDetails = () => {
   const { id } = useParams(); // Get blog ID from URL parameters
@@ -14,9 +15,7 @@ const BlogDetails = () => {
   useEffect(() => {
     const fetchBlogDetails = async () => {
       try {
-        const res = await axios.get(
-          `https://se-project-ep59.onrender.com/api/blog/inv/${id}`
-        );
+        const res = await axios.get(`${BASE_URL}/api/blog/inv/${id}`);
         console.log("Fetched blog details:", res.data);
         if (res.data) {
           setBlog(res.data);
@@ -59,7 +58,7 @@ const BlogDetails = () => {
         {/* Blog Image and Title */}
         <div className="relative">
           <img
-            src={`https://se-project-ep59.onrender.com/${blog.images[0]}`} // Add the base URL for the backend server
+            src={blog.images[0].url} // Add the base URL for the backend server
             // Always include an alt text for accessibility
             alt={blog.title}
             className="w-full h-64 object-cover"

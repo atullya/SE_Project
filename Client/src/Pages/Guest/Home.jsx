@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import HeroSection from "../../Component/HeroSection";
 import { FaSearch } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import { BASE_URL } from "../../App";
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -10,34 +11,11 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Search input state
   const homeRef = useRef(null); // Ref to scroll to the Home section
   const [userdata, setUserdata] = useState(null);
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(
-          "https://se-project-ep59.onrender.com/api/blog/welcome",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setUserdata(data.user);
-        } else {
-          console.error("Failed to fetch user data");
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    fetchUser();
-  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://se-project-ep59.onrender.com/api/guest/allblogs"
-        );
+        const response = await fetch(`${BASE_URL}/api/guest/allblogs`);
         const data = await response.json();
         console.log("Fetched data:", data);
 
@@ -87,14 +65,6 @@ const Home = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-red-100 text-lg text-red-500">
-        Something went wrong. Please try again later.
-      </div>
-    );
-  }
-
   return (
     <>
       <HeroSection scrollToHome={scrollToHome} />
@@ -115,6 +85,11 @@ const Home = () => {
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
           All Blogs
         </h1>
+        {error && (
+          <div className="flex justify-center items-center min-h-screen bg-red-100 text-lg text-red-500">
+            Something went wrong. Please try again later.
+          </div>
+        )}
 
         {filteredBlogs.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -127,7 +102,7 @@ const Home = () => {
                   {/* Display the image */}
                   {blog.images && blog.images[0] ? (
                     <img
-                      src={`https://se-project-ep59.onrender.com${blog.images[0]}`} // Add the base URL for the backend server
+                      src={blog.images[0].url} // Add the base URL for the backend server
                       alt={blog.title}
                       className="aspect-video w-full"
                     />
@@ -146,13 +121,13 @@ const Home = () => {
 
                 <div className="p-6">
                   <header className="mb-4 flex gap-4">
-                    <img
+                    {/* <img
                       className=" rounded-full h-10 w-10 object-cover"
                       src={`https://se-project-ep59.onrender.com/${userdata.profilePic
                         .split("\\")
                         .pop()}`}
                       alt={userdata.username}
-                    />
+                    /> */}
 
                     <div>
                       <h3 className="text-xl font-medium text-slate-700">

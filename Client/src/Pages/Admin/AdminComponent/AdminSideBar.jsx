@@ -78,19 +78,23 @@ const AdminSideBar = ({ isOpen, setIsOpen }) => {
                 </a>
               </li>
             </Link>
-            <li>
-              <a
-                href="#"
-                className="flex items-center px-4 py-3 bg-[#1F1E48] bg-opacity-25 rounded-lg hover:bg-opacity-50 transition-all duration-300"
-              >
-                <FaSignOutAlt size={20} />
-                <span
-                  className={`ml-4 text-sm font-medium ${!isOpen && "hidden"}`}
+            <Link to="/">
+              <li>
+                <a
+                  href="#"
+                  className="flex items-center px-4 py-3 bg-[#1F1E48] bg-opacity-25 rounded-lg hover:bg-opacity-50 transition-all duration-300"
                 >
-                  Logout
-                </span>
-              </a>
-            </li>
+                  <FaSignOutAlt size={20} />
+                  <span
+                    className={`ml-4 text-sm font-medium ${
+                      !isOpen && "hidden"
+                    }`}
+                  >
+                    Logout
+                  </span>
+                </a>
+              </li>
+            </Link>
           </ul>
         </nav>
         <div className="px-4 py-4 border-t border-purple-400">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponent/AdminSideBar";
 import axios from "axios";
+import { BASE_URL } from "../../../App";
 
 const AllBlogs = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -9,7 +10,7 @@ const AllBlogs = () => {
   // Fetch all posts
   const fetchAllPosts = async () => {
     try {
-      const res = await axios.get("https://se-project-ep59.onrender.com/api/admin/getalluser", {
+      const res = await axios.get(`${BASE_URL}/api/admin/getalluser`, {
         withCredentials: true,
       });
       console.log("API Response:", res.data); // Debugging API response

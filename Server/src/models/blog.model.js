@@ -14,7 +14,6 @@ const blogSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   tags: { type: [String], default: [] },
   category: { type: String, required: true },
-  images: { type: [String], default: [] }, // URLs of the images
   status: { type: String, enum: ["draft", "published"], default: "draft" },
   likes: { type: Number, default: 0 },
   likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
@@ -22,6 +21,17 @@ const blogSchema = new mongoose.Schema({
   comments: { type: [commentSchema], default: [] },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  images: [
+    {
+      url: { type: String, required: true }, // Cloudinary URL
+      publicId: { type: String, required: true }, // Cloudinary public ID
+    },
+  ],
+  uploadedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 // Add a pre-save middleware to update the `updatedAt` field

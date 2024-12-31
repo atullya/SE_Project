@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../App";
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const Signup = () => {
 
   const registerNewUser = async () => {
     try {
-      const res = await axios.post("https://se-project-ep59.onrender.com/api/auth/register", formData);
+      const res = await axios.post(`${BASE_URL}/api/auth/register`, formData);
       console.log("User registered successfully:", res.data);
       if (res.status === 201) {
         toast.success(res.data.message || "Signup successful!");

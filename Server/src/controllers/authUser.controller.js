@@ -1,14 +1,16 @@
 import Blog from "../models/blog.model.js";
-import User from "../models/user.model.js"
+import User from "../models/user.model.js";
 import Image from "../models/image.model.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import fs from "fs";
 import path from "path";
 import bcrypt from "bcrypt";
+import { uploadToCloudinary } from "../helper/cloudinaryHelper.js";
+import cloudinary from "../config/cloudinary.js";
 // Get the current directory path in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 export const welcomeUser = async (req, res) => {
   try {
     return res.status(200).json({
@@ -30,39 +32,55 @@ export const uploadBlog = async (req, res) => {
     }
 
     const blogInfo = req.body;
-    const imagePaths = req.files.map((file) => `/uploads/${file.filename}`); // Path of the uploaded image
 
+    // Upload multiple images to Cloudinary
+    const imageUploads = await Promise.all(
+      req.files.map(async (file) => {
+        const { url, publicId } = await uploadToCloudinary(file.path);
+        return { url, publicId };
+      })
+    );
+
+    // Create a new blog document
     const newBlog = new Blog({
       title: blogInfo.title,
       content: blogInfo.content,
       author: req.user._id, // assuming req.user contains the authenticated user
       tags: blogInfo.tags,
       category: blogInfo.category,
-      images: imagePaths,
+      images: imageUploads, // Array of image URLs and public IDs
       status: blogInfo.status,
+      uploadedBy: req.user._id,
     });
 
     const uploadedBlog = await newBlog.save();
 
     if (!uploadedBlog) {
-      return res.status(500).json({ success: false, message: "Blog upload failed!" });
+      return res
+        .status(500)
+        .json({ success: false, message: "Blog upload failed!" });
     }
 
-    return res.status(201).json({ success: true, message: "Blog uploaded successfully!" });
+    return res.status(201).json({
+      success: true,
+      message: "Blog uploaded successfully!",
+      blog: uploadedBlog,
+    });
   } catch (error) {
     console.error("Error uploading blog:", error);
-    return res.status(500).json({ success: false, message: "Internal server error while uploading blog." });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while uploading blog.",
+    });
   }
 };
 
-
-
-
-
 export const viewAvailableAllBlog = async (req, res) => {
   try {
-    if(req.query.search){
-      const getAllAvailableBlog = await Blog.find({title: { $regex: req.query.search, $options: "i" }});
+    if (req.query.search) {
+      const getAllAvailableBlog = await Blog.find({
+        title: { $regex: req.query.search, $options: "i" },
+      });
       if (!getAllAvailableBlog || getAllAvailableBlog.length === 0) {
         return res.status(200).json({ message: "No Blog Available" });
       }
@@ -299,77 +317,6 @@ export const incrementViewCount = async (req, res) => {
   }
 };
 
-export const editProfile=async (req,res)=>{
-  try {
-    const userId = req.user._id; // Assuming user ID comes from authentication middleware
-    const { username, email } = req.body; // Extract new data from request body
-
-    // Validate input
-    if (!username || !email) {
-      return res.status(400).json({
-        success: false,
-        message: "Username and email are required.",
-      });
-    }
-
-    // Find the user in the database
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found.",
-      });
-    }
-
-    // Handle profile picture upload
-    let profilePicPath = user.profilePic; // Keep the old profile pic by default
-    if (req.file) {
-      // New profile pic uploaded
-      const newImagePath = path.join(
-        __dirname,
-        "..",
-        "uploads",
-        req.file.filename
-      );
-
-      // Optionally delete the old profile pic if it exists
-      if (user.profilePic && fs.existsSync(user.profilePic)) {
-        fs.unlinkSync(user.profilePic);
-      }
-
-      profilePicPath = newImagePath;
-    }
-
-    // Update user information
-    user.username = username;
-    user.email = email;
-    user.profilePic = profilePicPath;
-
-    // Save updated user data
-    await user.save();
-
-    // Return success response
-    return res.status(200).json({
-      success: true,
-      message: "Profile updated successfully.",
-      data: {
-        username: user.username,
-        email: user.email,
-        profilePic: user.profilePic,
-      },
-    });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-
-    // Return error response
-    return res.status(500).json({
-      success: false,
-      message: "An error occurred while updating the profile.",
-      error: error.message,
-    });
-  }
-}
-
 export const changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -424,6 +371,80 @@ export const changePassword = async (req, res) => {
     console.error(error);
     return res.status(500).json({
       message: `Internal Server Error: ${error.message}`,
+    });
+  }
+};
+
+export const editProfile = async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming user ID comes from authentication middleware
+    const { username, email } = req.body; // Extract new data from request body
+
+    // Validate input
+    if (!username || !email) {
+      return res.status(400).json({
+        success: false,
+        message: "Username and email are required.",
+      });
+    }
+
+    // Find the user in the database
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // Handle profile picture upload if a new one is provided
+    let profilePicPath = user.profilePic; // Keep the old profile pic by default
+
+    if (req.file) {
+      // New profile pic uploaded
+      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+        folder: "uploads", // Specify the folder to store images
+      });
+
+      // Delete the old profile pic from server if it exists
+      if (
+        user.profilePic &&
+        user.profilePic !== "" &&
+        fs.existsSync(user.profilePic)
+      ) {
+        fs.unlinkSync(user.profilePic);
+      }
+
+      // Set the Cloudinary URL as the new profile picture
+      profilePicPath = uploadResult.secure_url;
+    }
+
+    // Update user information
+    user.username = username;
+    user.email = email;
+    user.profilePic = profilePicPath; // Update profile picture with Cloudinary URL
+
+    // Save updated user data
+    await user.save();
+
+    // Return success response
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      data: {
+        username: user.username,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+
+    // Return error response
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while updating the profile.",
+      error: error.message,
     });
   }
 };

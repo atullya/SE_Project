@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import { UserContextProvider } from "../../ContextApi/UserContext";
+import { BASE_URL } from "../../App";
 
 const AuthHome = () => {
   const [userdata, setuserdata] = useState(null); // Store user data or null if no user
@@ -10,7 +11,7 @@ const AuthHome = () => {
   // Fetch user details from API
   const welcomeUser = async () => {
     try {
-      let res = await fetch("https://se-project-ep59.onrender.com/api/blog/welcome", {
+      let res = await fetch(`${BASE_URL}/api/blog/welcome`, {
         method: "GET",
         credentials: "include", // Correct way to include cookies in the request
       });

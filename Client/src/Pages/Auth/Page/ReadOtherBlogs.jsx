@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Aside from "../Aside";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../../App";
 
 const ReadOtherBlogs = () => {
   const [blogs, setBlogs] = useState([]); // State to store combined blog and author data
@@ -9,7 +10,10 @@ const ReadOtherBlogs = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("https://se-project-ep59.onrender.com/api/blog/viewavailableblog");
+      const res = await axios.get(`${BASE_URL}/api/blog/viewavailableblog`, {
+        withCredentials: true,
+      });
+      console.log(res.data);
       if (res.data) {
         const { Blogs, Authors } = res.data;
         // Map blogs to their respective authors
@@ -55,7 +59,7 @@ const ReadOtherBlogs = () => {
                   {/* Image Section */}
                   <div className="relative">
                     <img
-                      src={`https://se-project-ep59.onrender.com/${blog.images[0]}`} // Add the base URL for the backend server
+                      src={blog.images[0].url} // Add the base URL for the backend server
                       // Always include an alt text for accessibility
                       alt={blog.title}
                       className="w-full h-48 object-cover"

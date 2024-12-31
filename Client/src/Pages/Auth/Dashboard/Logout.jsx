@@ -1,10 +1,10 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 
 const Logout = () => {
   return (
     <div>
-    
+      <Link to={"/"}>
         {" "}
         <li>
           <a
@@ -29,7 +29,7 @@ const Logout = () => {
             <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
           </a>
         </li>
-
+      </Link>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaUserCircle, FaShare, FaTrash } from "react-icons/fa";
 import { MdModeComment } from "react-icons/md";
 import { GrView } from "react-icons/gr";
+import { BASE_URL } from "../../../App";
 
 function AllUserPost() {
   const [posts, setPosts] = useState([]);
@@ -14,7 +15,7 @@ function AllUserPost() {
 
   const fetchAllPost = async () => {
     try {
-      let res = await axios.get("https://se-project-ep59.onrender.com/api/blog/uploadedblog", {
+      let res = await axios.get(`${BASE_URL}/api/blog/uploadedblog`, {
         withCredentials: true,
       });
       if (res.data) {
@@ -28,9 +29,12 @@ function AllUserPost() {
 
   const deleteBlog = async () => {
     try {
-      const res = await axios.delete(`https://se-project-ep59.onrender.com/api/blog/remove/${deleteId}`, {
-        withCredentials: true,
-      });
+      const res = await axios.delete(
+        `${BASE_URL}/api/blog/remove/${deleteId}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data) {
         toast.success("Post Deleted Successfully");
         fetchAllPost();
@@ -76,7 +80,7 @@ function AllUserPost() {
               <div className="flex gap-2">
                 {post.images && post.images[0] ? (
                   <img
-                    src={`http://localhost:4000${post.images[0]}`} // Add the base URL for the backend server
+                    src={post.images[0].url} // Add the base URL for the backend server
                     alt="Post Image" // Always include an alt text for accessibility
                     className="h-20 w-30" // Adjust styling as necessary
                   />

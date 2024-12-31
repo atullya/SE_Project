@@ -4,6 +4,7 @@ import Aside from "../Aside";
 import ReactQuill from "react-quill"; // Import Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
 import upload_area from "../../../assets/upload_area.png";
+import { BASE_URL } from "../../../App";
 
 const UploadNewPost = () => {
   const [isActive, setIsActive] = useState(false);
@@ -15,6 +16,7 @@ const UploadNewPost = () => {
   const [image, setImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null); // To display the uploaded image
   const [content, setContent] = useState(""); // To store content of the blog post
+  const [isUploading, setIsUploading] = useState(false); // Track upload status
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -46,15 +48,23 @@ const UploadNewPost = () => {
     formData.append("content", plainTextContent); // Append only plain text content
 
     if (image) {
-      formData.append("image", image); // Append the image file
+      formData.append("images", image); // Append the image file
     }
 
+    // Disable the button and start the upload
+    setIsUploading(true);
+
     try {
-      const response = await axios.post("https://se-project-ep59.onrender.com/api/blog/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/blog/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true, // Correct placement of withCredentials
+        }
+      );
 
       if (response.data.success) {
         alert("Blog uploaded successfully!");
@@ -74,6 +84,9 @@ const UploadNewPost = () => {
     } catch (error) {
       console.error("Error uploading blog:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      // Re-enable the button after the upload process is complete
+      setIsUploading(false);
     }
   };
 
@@ -181,9 +194,11 @@ const UploadNewPost = () => {
         {/* Submit Button */}
         <button
           onClick={handleSubmit}
+          disabled={isUploading} // Disable button while uploading
           className="mt-6 px-6 py-2 bg-[#F57C00] cursor-pointer text-white rounded hover:bg-[#d66a00]"
         >
-          Submit Post
+          {isUploading ? "Uploading..." : "Submit Post"}{" "}
+          {/* Show "Uploading..." text */}
         </button>
       </div>
     </div>

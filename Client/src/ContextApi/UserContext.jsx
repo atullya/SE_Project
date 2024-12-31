@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../App";
 
 export const UserContext = createContext();
 
@@ -11,7 +12,7 @@ export const UserContextProvider = ({ children }) => {
 
   const fetchUserData = async () => {
     try {
-      let res = await fetch("https://se-project-ep59.onrender.com/api/blog/welcome", {
+      let res = await fetch(`${BASE_URL}/api/blog/welcome`, {
         method: "GET",
         credentials: "include",
       });

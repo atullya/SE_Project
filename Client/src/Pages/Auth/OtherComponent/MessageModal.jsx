@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../../App";
 
 const MessageModal = ({ isOpen, onClose, userdata }) => {
   if (!isOpen) return null;
@@ -15,7 +16,7 @@ const MessageModal = ({ isOpen, onClose, userdata }) => {
       try {
         console.log(userdata._id);
         const response = await axios.get(
-          "https://se-project-ep59.onrender.com/api/v1/chat/676ac02357c5fee58bf274c8",
+          `${BASE_URL}/api/v1/chat/676ac02357c5fee58bf274c8`,
           { withCredentials: true }
         );
 

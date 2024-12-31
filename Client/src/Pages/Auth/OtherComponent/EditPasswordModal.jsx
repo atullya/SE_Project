@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal"; // Make sure to install react-modal: npm install react-modal
 import { toast } from "react-toastify";
 import axios from "axios";
+import { BASE_URL } from "../../../App";
 Modal.setAppElement("#root"); // Ensure accessibility compliance
 
 const EditPasswordModal = ({ isOpen, onClose, fetchProfile, userdata }) => {
@@ -22,12 +23,16 @@ const EditPasswordModal = ({ isOpen, onClose, fetchProfile, userdata }) => {
         newPassword,
       };
       setLoading(true);
-      const res = await axios.patch("api/blog/changepassword", payload, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await axios.patch(
+        `${BASE_URL}/api/blog/changepassword`,
+        payload,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.status === 200) {
         toast.success("Password updated successfully!");

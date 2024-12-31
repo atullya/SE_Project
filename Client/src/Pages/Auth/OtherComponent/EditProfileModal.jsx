@@ -3,6 +3,7 @@ import upload_area from "../../../assets/upload_area.png";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "../../../App";
 const EditProfileModal = ({
   isOpen,
   onClose,
@@ -38,13 +39,9 @@ const EditProfileModal = ({
       formData.append("email", email);
       formData.append("image", image);
 
-      const res = await axios.patch(
-        "https://se-project-ep59.onrender.com/api/blog/edit",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.patch(`${BASE_URL}/api/blog/edit`, formData, {
+        withCredentials: true,
+      });
       if (res.data.success) {
         // toast.success("Profile updated successfully!");
         toast.success("Profile updated successfully!");

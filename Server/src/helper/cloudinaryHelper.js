@@ -1,26 +1,28 @@
-import cloudinary from "../config/cloudinary.js"; // Make sure the path is correct
+import cloudinary from "../config/cloudinary.js"; // Ensure the path is correct
 
 export const uploadToCloudinary = async (filePath) => {
   try {
-    // Log the file path before uploading for debugging purposes
+    // Debug: Log the file path
     console.log("Uploading file to Cloudinary from path:", filePath);
 
-    // Perform the upload to Cloudinary
-    const uploadResult = await cloudinary.uploader.upload(filePath);
+    // Upload the file to Cloudinary
+    const uploadResult = await cloudinary.uploader.upload(filePath, {
+      folder: "blog-images", // Optional: Specify a folder for organization
+    });
 
-    // Log the upload result for debugging
+    // Debug: Log the upload result
     console.log("Upload Result:", uploadResult);
 
-    // Return the URL and public ID from the upload result
+    // Return the Cloudinary URL and public ID
     return {
       url: uploadResult.secure_url,
       publicId: uploadResult.public_id,
     };
   } catch (error) {
-    // Log the error with more detailed information
+    // Debug: Log the error details
     console.error("Error while uploading to Cloudinary:", error);
 
-    // Throw an error with a more descriptive message
+    // Re-throw with a detailed message
     throw new Error("Error while uploading to Cloudinary: " + error.message);
   }
 };

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../Navbar";
 import axios from "axios"; // Import axios
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../App";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,11 +17,12 @@ function Login() {
     try {
       // Sending data to your API with axios
       const response = await axios.post(
-        "https://se-project-ep59.onrender.com/api/auth/login",
+        `${BASE_URL}/api/auth/login`,
         {
           email,
           password,
-        }
+        },
+        { withCredentials: true }
       );
 
       console.log(response.data);

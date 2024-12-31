@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import AdminSideBar from "../AdminComponent/AdminSideBar";
 import axios from "axios";
 import UserChart from "../AdminComponent/UserChart";
+import { BASE_URL } from "../../../App";
 
 const AdminHome = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [data, setData] = useState([]); // State to store data
   const welcomeAdmin = async () => {
     try {
-      const res = await axios.get("api/admin/welcome", {
+      const res = await axios.get(`${BASE_URL}api/admin/welcome`, {
         withCredentials: true,
       });
       //   const response = await fetch("api/admin/welcome", {
@@ -30,7 +31,6 @@ const AdminHome = () => {
   }, []);
   return (
     <div className="flex h-[100vh] bg-gray-50">
-      
       <AdminSideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
       {/* Main Content */}

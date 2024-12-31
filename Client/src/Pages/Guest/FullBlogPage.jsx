@@ -3,6 +3,7 @@ import background from "../../assets/background.svg";
 import Social from "./Social";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../App";
 
 const FullBlogPage = () => {
   const [blog, setBlog] = useState({});
@@ -15,7 +16,7 @@ const FullBlogPage = () => {
     if (!indvdata?._id) return;
     try {
       let res = await axios.get(
-        `https://se-project-ep59.onrender.com/api/guest/allblog/${indvdata._id}`
+        `${BASE_URL}/api/guest/allblog/${indvdata._id}`
       );
       setBlog(res.data.blog.blog);
       console.log(res.data.blog);
@@ -89,13 +90,12 @@ const FullBlogPage = () => {
               className="rounded-full w-16 h-16 mx-auto"
               src={
                 author?.profilePic
-                  ? `http://localhost:4000/uploads/${author.profilePic
-                      .split("\\")
-                      .pop()}`
-                  : "https://avatar.iran.liara.run/public/23" // Fallback image
-              }
+                  ? author.profilePic
+                  : "https://avatar.iran.liara.run/public/23"
+              } // Fallback image
               alt={author?.username || "No Username"}
             />
+
             {/* <img
               src="https://via.placeholder.com/80"
               alt="Author"
